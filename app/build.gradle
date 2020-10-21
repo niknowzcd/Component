@@ -1,0 +1,49 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+def rootAndroidId = rootProject.ext.androidId
+def appId = rootProject.ext.appId
+
+android {
+    compileSdkVersion rootAndroidId.compileSdkVersion
+
+    defaultConfig {
+        applicationId appId.app
+        minSdkVersion rootAndroidId.minSdkVersion
+        targetSdkVersion rootAndroidId.targetSdkVersion
+        versionCode rootAndroidId.versionCode
+        versionName rootAndroidId.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // 在gradle文件中配置选项参数值（用于APT传参接收）
+        // 切记：必须写在defaultConfig节点下
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName(), packageNameForAPT: packageNameForAPT]
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    implementation rootProject.ext.supportLibs
+    implementation rootProject.ext.networkLibs
+    implementation rootProject.ext.kotlinLibs
+    implementation rootProject.ext.assistToolLibs
+
+    implementation project(":common")
+//    implementation project(':arouter_annotation') // 注解
+    annotationProcessor project(":arouter_compiler")
+    implementation project(':order')
+}
