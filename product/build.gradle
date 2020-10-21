@@ -3,8 +3,6 @@ if (isRelease) { // 如果是发布版本时，各个模块都不能独立运行
 } else {
     apply plugin: 'com.android.application'
 }
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 def rootAndroidId = rootProject.ext.androidId
 def appId = rootProject.ext.appId
@@ -14,13 +12,12 @@ android {
 
     defaultConfig {
         if (!isRelease) {
-            applicationId appId.order
+            applicationId appId.product
         }
         minSdkVersion rootAndroidId.minSdkVersion
         targetSdkVersion rootAndroidId.targetSdkVersion
         versionCode rootAndroidId.versionCode
         versionName rootAndroidId.versionName
-
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -66,4 +63,5 @@ dependencies {
 
     implementation project(":common")
     annotationProcessor project(":arouter_compiler")
+
 }

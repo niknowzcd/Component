@@ -1,19 +1,12 @@
 package com.architect.component;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.architect.component.annotation.ARouter;
-import com.architect.component.annotation.RouterBean;
-import com.architect.component.api.core.ARouterLoadGroup;
-import com.architect.component.api.core.ARouterLoadPath;
-import com.architect.component.apt.ARouter$$Group$$order;
-import com.architect.component.apt.ARouter$$Path$$order;
-
-import java.util.Map;
+import com.architect.component.api.core.RouterManager;
 
 @ARouter(path = "/app/MainActivity")
 public class MainActivity extends AppCompatActivity {
@@ -25,30 +18,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void jumpOrder(View view) {
-
-        ARouter$$Path$$order path = new ARouter$$Path$$order();
-        Map<String, RouterBean> map = path.loadPath();
-        RouterBean bean = map.get("/order/MainActivity");
-        if (bean != null) {
-            startActivity(new Intent(this, bean.getClazz()));
-        }
+        RouterManager.getInstance()
+                .build("/order/Order_MainActivity")
+                .withString("name", "张三")
+                .navigation(this);
+    }
 
 
-//        ARouterLoadGroup group = new ARouter$$Group$$order();
-//        Map<String, Class<? extends ARouterLoadPath>> classMap = group.loadGroup();
-//        Class<? extends ARouterLoadPath> order = classMap.get("order");
-//
-//        try {
-//            ARouter$$Path$$order pathOrder = (ARouter$$Path$$order) order.newInstance();
-//            Map<String, RouterBean> map = pathOrder.loadPath();
-//            RouterBean bean = map.get("/order/MainActivity");
-//
-//            if (bean != null) {
-//                startActivity(new Intent(this, bean.getClazz()));
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+    public void jumpProduct(View view) {
+        RouterManager.getInstance()
+                .build("/product/product_MainActivity")
+                .withString("name2", "李四")
+                .navigation(this);
     }
 }

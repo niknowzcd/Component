@@ -4,16 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="20dp"
     tools:context=".MainActivity">
 
 
     <Button
-        android:onClick="jumpOrder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="jumpOrder"
         android:text="打开order"
+        android:textAllCaps="false" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="jumpProduct"
+        android:text="打开product"
         android:textAllCaps="false" />
 
 </LinearLayout>
