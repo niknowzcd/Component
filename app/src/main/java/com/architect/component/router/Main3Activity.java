@@ -1,9 +1,10 @@
-package com.architect.component;
+package com.architect.component.router;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.architect.component.R;
 import com.architect.component.annotation.ARouter;
 
 @ARouter(path = "/app/MainActivity3")

@@ -1,4 +1,4 @@
-package com.architect.component.test;
+package com.architect.component.router;
 
 import com.architect.component.annotation.RouterBean;
 import com.architect.component.api.core.ARouterLoadPath;

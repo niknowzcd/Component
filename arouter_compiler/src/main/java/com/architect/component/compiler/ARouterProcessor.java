@@ -92,8 +92,8 @@ public class ARouterProcessor extends AbstractProcessor {
         if (!EmptyUtils.isEmpty(options)) {
             moduleName = options.get(Constants.MODULE_NAME);
             packageNameForAPT = options.get(Constants.APT_PACKAGE);
-            messager.printMessage(Diagnostic.Kind.NOTE, "moduleName >>> " + moduleName);
-            messager.printMessage(Diagnostic.Kind.NOTE, "packageNameForAPT >>> " + packageNameForAPT);
+//            messager.printMessage(Diagnostic.Kind.NOTE, "moduleName >>> " + moduleName);
+//            messager.printMessage(Diagnostic.Kind.NOTE, "packageNameForAPT >>> " + packageNameForAPT);
         }
 
         // 必传参数判空（乱码问题：添加java控制台输出中文乱码）
@@ -107,7 +107,7 @@ public class ARouterProcessor extends AbstractProcessor {
         if (!EmptyUtils.isEmpty(set)) {
 
             Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(ARouter.class);
-            messager.printMessage(Diagnostic.Kind.NOTE, "elements >>> " + elements.isEmpty());
+//            messager.printMessage(Diagnostic.Kind.NOTE, "elements >>> " + elements.isEmpty());
 
             if (!EmptyUtils.isEmpty(elements)) {
 
@@ -275,8 +275,8 @@ public class ARouterProcessor extends AbstractProcessor {
             methodBuilder.addStatement("return $N", Constants.PATH_PARAMETER_NAME);
 
             String finalClassName = Constants.PATH_FILE_NAME + entry.getKey();
-            messager.printMessage(Diagnostic.Kind.NOTE, "APT生成路由Path类文件：" +
-                    packageNameForAPT + "." + finalClassName);
+//            messager.printMessage(Diagnostic.Kind.NOTE, "APT生成路由Path类文件：" +
+//                    packageNameForAPT + "." + finalClassName);
 
 
             //生成类文件：ARouter$$Path$$app
@@ -302,7 +302,7 @@ public class ARouterProcessor extends AbstractProcessor {
      */
     private void valueOfPathMap(RouterBean bean) {
         if (checkRouterPath(bean)) {
-            messager.printMessage(Diagnostic.Kind.NOTE, "RouterBean >>> " + bean.toString());
+//            messager.printMessage(Diagnostic.Kind.NOTE, "RouterBean >>> " + bean.toString());
 
             List<RouterBean> routerBeans = tempPathMap.get(bean.getGroup());
             if (EmptyUtils.isEmpty(routerBeans)) {
@@ -313,7 +313,7 @@ public class ARouterProcessor extends AbstractProcessor {
                 routerBeans.add(bean);
             }
         } else {
-            messager.printMessage(Diagnostic.Kind.ERROR, "@ARouter注解未按规范配置，如：/app/MainActivity");
+//            messager.printMessage(Diagnostic.Kind.ERROR, "@ARouter注解未按规范配置，如：/app/MainActivity");
         }
     }
 
@@ -328,13 +328,13 @@ public class ARouterProcessor extends AbstractProcessor {
 
         //@ARouter注解中的path值，必须要以 / 开头（模仿阿里Arouter规范）
         if (EmptyUtils.isEmpty(path) || !path.startsWith("/")) {
-            messager.printMessage(Diagnostic.Kind.ERROR, "@ARouter注解中的path值，必须要以 / 开头");
+//            messager.printMessage(Diagnostic.Kind.ERROR, "@ARouter注解中的path值，必须要以 / 开头");
             return false;
         }
 
         // 比如开发者代码为：path = "/MainActivity"，最后一个 / 符号必然在字符串第1位
         if (path.lastIndexOf("/") == 0) {
-            messager.printMessage(Diagnostic.Kind.ERROR, "@ARouter注解未按规范配置，如：/app/MainActivity");
+//            messager.printMessage(Diagnostic.Kind.ERROR, "@ARouter注解未按规范配置，如：/app/MainActivity");
             return false;
         }
 
@@ -343,7 +343,7 @@ public class ARouterProcessor extends AbstractProcessor {
 
         // @ARouter注解中的group有赋值情况
         if (!EmptyUtils.isEmpty(group) && !group.equals(moduleName)) {
-            messager.printMessage(Diagnostic.Kind.ERROR, "@ARouter注解中的group值必须和子模块名一致！");
+//            messager.printMessage(Diagnostic.Kind.ERROR, "@ARouter注解中的group值必须和子模块名一致！");
             return false;
         } else {
             bean.setGroup(finalGroup);

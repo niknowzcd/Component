@@ -7,21 +7,29 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".router.MainActivity">
+    tools:context=".eventbus.EventBusActivity2">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="当前是EventBusActivity2"
+        android:textColor="#333333"
+        android:textSize="18dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="jumpOrder"
-        android:text="打开order"
+        android:layout_marginTop="30dp"
+        android:onClick="sendMessage"
+        android:text="当前是EventBusActivity2"
         android:textAllCaps="false" />
 
-    <Button
+    <TextView
+        android:id="@+id/content_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="jumpProduct"
-        android:text="打开product"
-        android:textAllCaps="false" />
+        android:layout_marginTop="30dp"
+        android:textColor="#999999"
+        tools:text="" />
 
 </LinearLayout>

@@ -1,10 +1,11 @@
-package com.architect.component;
+package com.architect.component.router;
 
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.architect.component.R;
 import com.architect.component.annotation.ARouter;
 import com.architect.component.api.core.RouterManager;
 

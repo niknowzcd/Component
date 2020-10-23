@@ -26,7 +26,7 @@ android {
         // 切记：必须写在defaultConfig节点下
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [moduleName: project.getName(), packageNameForAPT: packageNameForAPT]
+                arguments = [moduleName: project.getName(), packageNameForAPT: packageNameForAPT, eventBusIndex: "MyEventBusIndex"]
             }
         }
     }
@@ -46,8 +46,11 @@ dependencies {
     implementation rootProject.ext.networkLibs
     implementation rootProject.ext.kotlinLibs
     implementation rootProject.ext.assistToolLibs
+//    annotationProcessor rootProject.ext.annotationProcessorLibs
 
     implementation project(":common")
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
     annotationProcessor project(":arouter_compiler")
 
     // 如果是集成化模式，做发布版本时。各个模块都不能独立运行了

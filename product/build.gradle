@@ -24,7 +24,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [moduleName: project.getName(), packageNameForAPT: packageNameForAPT]
+                arguments = [moduleName: project.getName(), packageNameForAPT: packageNameForAPT,eventBusIndex: "MyEventBusIndex"]
             }
         }
     }
