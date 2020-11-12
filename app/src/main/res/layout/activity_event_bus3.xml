@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="当前是EventBusActivity2"
+        android:text="当前是EventBusActivity3"
         android:textColor="#333333"
         android:textSize="18dp" />
 
@@ -21,14 +21,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:onClick="sendMessage"
-        android:text="当前是EventBusActivity2"
+        android:text="当前是EventBusActivity3"
         android:textAllCaps="false" />
 
-    <Button
-        android:onClick="delete_sticky"
+    <TextView
+        android:id="@+id/content_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="删除粘性事件" />
+        android:textColor="#999999"
+        tools:text="" />
 
 </LinearLayout>

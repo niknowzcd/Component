@@ -1,31 +1,16 @@
 package com.architect.component.eventbus;
 
+import android.os.Bundle;
+
+import com.architect.component.api.core.event.BaseEventBusBeaan;
+
 /**
  * 定义事件
  */
-public class UserInfo {
+public class UserInfo extends BaseEventBusBeaan {
 
-    private String name;
-    private int age;
 
-    public UserInfo(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    @Override
-    public String toString() {
-        return "UserInfo{" +
-                "name='" + name + '\'' +
-                ", age=" + age +
-                '}';
+    public UserInfo(String msg, Bundle data) {
+        super(msg, data);
     }
 }

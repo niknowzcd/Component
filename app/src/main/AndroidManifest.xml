@@ -20,6 +20,7 @@
         
 
         <activity android:name=".eventbus.EventBusActivity2" />
+        <activity android:name=".eventbus.EventBusActivity3" />
         <activity android:name=".router.Main3Activity" />
         <activity android:name=".router.MainActivity">
 <!--            <intent-filter>-->

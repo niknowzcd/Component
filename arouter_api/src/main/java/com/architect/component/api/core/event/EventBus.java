@@ -40,9 +40,10 @@ public class EventBus {
     //如果所有订阅者都定义了同一个类型的事件，比如EventBean。
     //这样写起来简单，但是在post的时候，会遍历所有订阅者，效率不高。需要根据业务做拆分
     private Map<Object, List<Class<?>>> typeBySubscriber;
-
     private final Map<Class<?>, List<SubscriberMethod>> methodBySubscriber;
 
+    //粘性事件集合 ,触发时机在register的时候
+    private Map<Class<?>, Object> stickyEvents;
 
     public EventBus() {
         methodBySubscriber = new HashMap<>();
@@ -50,6 +51,8 @@ public class EventBus {
         subscriptionsByEventType = new HashMap<>();
         handler = new Handler(Looper.getMainLooper());
         executorService = Executors.newCachedThreadPool();
+
+        stickyEvents = new HashMap<>();
     }
 
     public static EventBus getDefault() {
@@ -68,7 +71,9 @@ public class EventBus {
     }
 
     /**
-     * @param subscriber
+     * 订阅者的入口
+     *
+     * @param subscriber activity,fragment
      */
     public void register(Object subscriber) {
         Class<?> subscriberClass = subscriber.getClass();
@@ -118,9 +123,11 @@ public class EventBus {
         }
 
         Subscription subscription = new Subscription(subscriber, subscriberMethod);
-        if (subscriptions.contains(subscription)) {
-            //粘性事件相关逻辑
-        }
+//        if (subscriptions.contains(subscription)) {
+//            //粘性事件相关逻辑
+//            sticky(subscriberMethod, eventType, subscription);
+//            return;
+//        }
 
         //根据优先级插队
         int size = subscriptions.size();
@@ -138,6 +145,9 @@ public class EventBus {
             typeBySubscriber.put(subscriber, subscribeEvents);
         }
         subscribeEvents.add(eventType);
+
+        //粘性事件入口
+        sticky(subscriberMethod, eventType, subscription);
     }
 
     public void post(Object event) {
@@ -153,7 +163,10 @@ public class EventBus {
         }
         if (subscriptions != null && !subscriptions.isEmpty()) {
             for (Subscription subscription : subscriptions) {
-                postToSubscription(subscription, event);
+                //发送普通事件的时候不触发粘性事件
+                if (!subscription.subscriberMethod.isSticky()) {
+                    postToSubscription(subscription, event);
+                }
             }
         }
     }
@@ -199,6 +212,38 @@ public class EventBus {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /*************************************** 粘性事件相关 *****************************/
+
+    /**
+     * 在register的时候，遍历当前类下所有Subscribe函数，查看是否有粘性事件
+     */
+    private void sticky(SubscriberMethod subscriberMethod, Class<?> eventType, Subscription subscription) {
+        if (subscriberMethod.isSticky()) {
+            Object event = stickyEvents.get(eventType);
+            if (event != null) {
+                postToSubscription(subscription, event);
+            }
+        }
+    }
+
+    public void postSticky(Object event) {
+        stickyEvents.put(event.getClass(), event);
+    }
+
+    public <T> T getStickyEvent(Class<T> eventType) {
+        // cast方法做转换类型时安全措施（简化stickyEvents.get(eventType)）
+        return eventType.cast(stickyEvents.get(eventType));
+    }
+
+    public boolean removeStickyEvent(Class<?> eventType) {
+        Object object = stickyEvents.remove(eventType);
+        return object != null;
+    }
+
+    public void removeAllStickyEvents() {
+        stickyEvents.clear();
     }
 
 }
