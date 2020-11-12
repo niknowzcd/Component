@@ -131,29 +131,6 @@ public class SubscribeProcessor extends AbstractProcessor {
         createFile();
     }
 
-
-//    public final class EventBusIndex implements SubscriberInfoIndex {
-//        private static final Map<Class, SubscriberInfo> SUBSCRIBER_INDEX;
-//
-//        static {
-//            SUBSCRIBER_INDEX = new HashMap<Class, SubscriberInfo>();
-//            putIndex(new EventBeans(Main2Activity.class, new SubscriberMethod[] {
-//                    new SubscriberMethod(Main2Activity.class, "sticky", UserInfo.class, ThreadMode.MAIN, 0, true)} ));
-//            putIndex(new EventBeans(MainActivity.class, new SubscriberMethod[] {
-//                    new SubscriberMethod(MainActivity.class, "abc", UserInfo.class, ThreadMode.ASYNC, 0, false),
-//                    new SubscriberMethod(MainActivity.class, "abc2", UserInfo.class, ThreadMode.ASYNC, 1, false)} ));
-//        }
-//
-//        private static void putIndex(SubscriberInfo info) {
-//            SUBSCRIBER_INDEX.put(info.getSubscriberClass(), info);
-//        }
-//
-//        @Override
-//        public SubscriberInfo getSubscriberInfo(Class subscriberClass) {
-//            return SUBSCRIBER_INDEX.get(subscriberClass);
-//        }
-//    }
-
     /**
      * 核心函数
      * 创建类的时候，先把你想要的目标代码写出来，然后从里到外开始创建
@@ -169,6 +146,7 @@ public class SubscribeProcessor extends AbstractProcessor {
 
         //遍历所有加了Subscriber注解的类
         for (Map.Entry<TypeElement, List<ExecutableElement>> entry : methodsByClass.entrySet()) {
+            CodeBlock.Builder contentBlock = CodeBlock.builder();
             CodeBlock contentCode = null;
             String format;
 
@@ -191,7 +169,7 @@ public class SubscribeProcessor extends AbstractProcessor {
                     }
 
                     //new SubscriberMethod(MainActivity.class, "abc", UserInfo.class, ThreadMode.POSTING, 0, false)
-                    contentCode = CodeBlock.builder().add(format,
+                    contentCode = contentBlock.add(format,
                             SubscriberMethod.class,
                             ClassName.get(entry.getKey()),
                             methodName,
@@ -201,6 +179,8 @@ public class SubscribeProcessor extends AbstractProcessor {
                             subscribe.priority(),
                             subscribe.sticky())
                             .build();
+
+                    messager.printMessage(Diagnostic.Kind.NOTE, "contentCode >> " + contentCode);
                 }
             }
 
@@ -210,9 +190,7 @@ public class SubscribeProcessor extends AbstractProcessor {
                         SimpleSubscriberInfo.class,
                         ClassName.get(entry.getKey()),
                         SubscriberMethod.class)
-                        // 嵌套的精华（尝试了很多次，有更好的方式请告诉我）
                         .add(contentCode)
-                        // ))}
                         .endControlFlow("))");
             } else {
                 //todo 如果传进来的参数是基本类型的参数，就不生成对应的代码体 ？ EventBus也是没有生成对应的方法的，待处理

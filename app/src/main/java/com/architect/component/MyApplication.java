@@ -2,6 +2,9 @@ package com.architect.component;
 
 import android.app.Application;
 
+import com.architect.component.api.core.event.EventBus;
+import com.architect.component.apt.MyEventBusIndex;
+
 
 public class MyApplication extends Application {
 
@@ -21,6 +24,8 @@ public class MyApplication extends Application {
      *
      */
     private void initEventBus() {
+        EventBus.getDefault().addIndex(new MyEventBusIndex());
+
 //        EventBus.builder().addIndex(new MyEventBusIndex()).installDefaultEventBus();
     }
 }

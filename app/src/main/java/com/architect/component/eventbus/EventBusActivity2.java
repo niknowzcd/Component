@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.architect.component.R;
 import com.architect.component.annotation.eventbus.Subscribe;
+import com.architect.component.api.core.event.EventBus;
+import com.architect.component.common.utils.LogUtils;
 
 
 public class EventBusActivity2 extends AppCompatActivity {
@@ -17,7 +19,8 @@ public class EventBusActivity2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        EventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
+
 
         setContentView(R.layout.activity_event_bus2);
         textView = findViewById(R.id.content_tv);
@@ -26,16 +29,17 @@ public class EventBusActivity2 extends AppCompatActivity {
     // 订阅方法
     @Subscribe
     public void event(UserInfo message) {
-        textView.setText("接收到文案 = " + message);
+        LogUtils.d("EventBusActivity2 event ");
     }
 
     public void sendMessage(View view) {
-//        EventBus.getDefault().postSticky("sticky");
+        EventBus.getDefault().post(new UserInfo("123", 12));
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        EventBus.getDefault().unregister(this);
+        EventBus.getDefault().unregister(this);
     }
+
 }

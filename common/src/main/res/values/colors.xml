@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ff7800</color>
+    <color name="colorPrimaryDark">#e94816</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="cycle_progress">#ff6733</color>
+    <color name="cycle_progress_bg">#e6e6e6</color>
+
+    <color name="red">#FF0000</color>
+    <color name="black">#000000</color>
+
+    <color name="mainColor">#ff7800</color>
+    <color name="mainColor2">#74B5FD</color>
+    <color name="mainColor3">#ff6500</color>
+    <color name="new_peck_child_theme">#FF3548</color>
+    <color name="textGrayColor">#acacac</color>
+    <color name="textNineColor">#999999</color>
+
+    <color name="text_color_222">#222222</color>
+    <color name="text_color_333">#333333</color>
+    <color name="text_color_666">#666666</color>
+    <color name="text_color_777">#777777</color>
+    <color name="text_color_888">#888888</color>
+    <color name="text_color_999">#999999</color>
+    <color name="text_color_e6">#e6e6e6</color>
+
+    <color name="select">#f65532</color>
+    <color name="normal">#acacac</color>
+
+    <color name="divider_color">#f3f3f3</color>
+    <color name="transparency">#00ffffff</color>
+    <color name="white">#ffffff</color>
+    <color name="white90">#E6ffffff</color>
+    <color name="white_alpha_80">#ccffffff</color>
+    <color name="backgroundColor">#e6e6e6</color>
+
+</resources>

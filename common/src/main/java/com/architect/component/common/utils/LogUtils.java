@@ -6,11 +6,11 @@ import com.architect.component.common.BuildConfig;
 
 public class LogUtils {
 
-    private static final String TAG = "-LogUtils-";
+    private static final String TAG = "logger";
 
     public static void d(String msg) {
-        if (!BuildConfig.isRelease) {
+//        if (!BuildConfig.isRelease) {
             Log.d(TAG, msg);
-        }
+//        }
     }
 }
