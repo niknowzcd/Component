@@ -1,5 +1,7 @@
 package com.architect.component.common.http;
 
+import com.architect.component.api.core.EmptyUtils;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
@@ -48,6 +50,9 @@ public class SocketRequestServer {
         if (url == null) return null;
 
         String urlContent = url.getFile();
+        if (EmptyUtils.isEmpty(urlContent)) {
+            urlContent = "/";
+        }
 
         //请求行 GET xxxxx HTTP/1.1\r\n
         StringBuffer buffer = new StringBuffer();
@@ -82,5 +87,15 @@ public class SocketRequestServer {
         }
 
         return buffer.toString();
+    }
+
+    public String getProtocol(Request request) {
+        try {
+            URL url = new URL(request.getUrl());
+            return url.getProtocol();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }
