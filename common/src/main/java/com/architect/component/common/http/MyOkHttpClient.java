@@ -1,9 +1,19 @@
 package com.architect.component.common.http;
 
+import com.architect.component.common.http.interceptor.Interceptor;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class MyOkHttpClient {
 
     private Dispatcher dispatcher;
     private boolean isCanceled;
+    private List<Interceptor> interceptors;
+
+    public List<Interceptor> interceptors() {
+        return interceptors;
+    }
 
     public boolean isCanceled() {
         return isCanceled;
@@ -12,14 +22,22 @@ public class MyOkHttpClient {
     public MyOkHttpClient(Builder builder) {
         dispatcher = builder.dispatcher;
         isCanceled = builder.isCanceled;
+        interceptors = builder.interceptors;
     }
 
     public final static class Builder {
         Dispatcher dispatcher;
         boolean isCanceled;
+        List<Interceptor> interceptors;
 
         public Builder() {
             dispatcher = new Dispatcher();
+            interceptors = new ArrayList<>();
+        }
+
+        public Builder addIntercepor(Interceptor interceptor) {
+            interceptors.add(interceptor);
+            return this;
         }
 
         public Builder dispatcher(Dispatcher dispatcher) {

@@ -11,11 +11,17 @@ public class Request {
     private String url;
     private String reuqestMethod = GET;
     private Map<String, String> headers = new HashMap<>();
+    private RequestBody requestBody;
+
+    public RequestBody getRequestBody() {
+        return requestBody;
+    }
 
     public Request(Builder builder) {
         this.url = builder.url;
         this.reuqestMethod = builder.requestMethod;
         this.headers.putAll(builder.headers);
+        this.requestBody = builder.requestBody;
     }
 
     public String getUrl() {
@@ -34,6 +40,7 @@ public class Request {
         private String url;
         private String requestMethod = GET;
         private Map<String, String> headers = new HashMap<>();
+        private RequestBody requestBody;
 
         public Builder url(String url) {
             this.url = url;
@@ -45,8 +52,9 @@ public class Request {
             return this;
         }
 
-        public Builder post() {
+        public Builder post(RequestBody requestBody) {
             requestMethod = POST;
+            this.requestBody = requestBody;
             return this;
         }
 

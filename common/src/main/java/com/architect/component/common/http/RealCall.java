@@ -1,6 +1,14 @@
 package com.architect.component.common.http;
 
+import com.architect.component.common.http.interceptor.ConnectInterceptor;
+import com.architect.component.common.http.interceptor.Interceptor;
+import com.architect.component.common.http.interceptor.RealInterceptor;
+import com.architect.component.common.http.interceptor.RequestHeaderInterceptor;
+import com.architect.component.common.http.interceptor.RetryAndFollowUpInterceptor;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 网络请求的具体执行类
@@ -63,10 +71,15 @@ public class RealCall implements Call {
         }
 
 
-        private Response getResponseWithInterceptorChain() {
-            Response response = new Response();
-            response.setBody("我是返回结果");
-            return response;
+        private Response getResponseWithInterceptorChain() throws IOException {
+            //这一行是自定义的interceptor
+            List<Interceptor> interceptors = new ArrayList<>(client.interceptors());
+            interceptors.add(new RetryAndFollowUpInterceptor());
+            interceptors.add(new RequestHeaderInterceptor());
+            interceptors.add(new ConnectInterceptor());
+
+            RealInterceptor chain = new RealInterceptor(interceptors, 0, request, RealCall.this);
+            return chain.process(request);
         }
     }
 }
