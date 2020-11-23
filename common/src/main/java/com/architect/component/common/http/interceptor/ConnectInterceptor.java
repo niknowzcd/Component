@@ -42,7 +42,7 @@ public class ConnectInterceptor implements Interceptor {
             httpConnection.hastUseTime = System.currentTimeMillis();
             connectionPool.putConnection(httpConnection);
         }
-
+        //todo 复用socket之后 无法正常发送数据，留待解决。
         Socket socket = httpConnection.socket();
         OutputStream os = socket.getOutputStream();
         BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(os));

@@ -9,6 +9,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 参考 https://www.jianshu.com/p/32de43ce0252
+ *
  * socker连接的连接池
  * 目的:复用已经存在的socket，避免频繁进行网络连接产生的消耗 (三次握手，四次挥手)
  * <p>
@@ -112,7 +114,7 @@ public class ConnectionPool {
         while (iterator.hasNext()) {
             HttpConnection connection = iterator.next();
             if (connection.isConnection(host, port)) {
-                iterator.remove();
+//                iterator.remove();
                 return connection;
             }
         }

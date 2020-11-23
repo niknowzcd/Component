@@ -25,6 +25,7 @@ public class RequestHeaderInterceptor implements Interceptor {
             headers.put("Content-Length", request.getRequestBody().getBody().length() + "");
             headers.put("Content-Type", RequestBody.TYPE);
         }
+        headers.put("Connection", "Keep-Alive");
 
         return chain.process(request);
     }

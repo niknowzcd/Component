@@ -7,8 +7,10 @@ import com.architect.component.common.http.Request;
 import com.architect.component.common.http.Response;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 import okhttp3.OkHttpClient;
 
@@ -17,7 +19,7 @@ import okhttp3.OkHttpClient;
  */
 public class OkHttpTest {
     private static String PATH_GET = "http://restapi.amap.com/v3/weather/weatherInfo?city=110101&key=13cb58f5884f9749287abbead9c658f2";
-    //    private static String PATH_GET = "https://www.baidu.com";
+//        private static String PATH_GET = "https://www.baidu.com";
     private static String PATG_POST = "http://restapi.amap.com/v3/weather/weatherInfo";
 
     public static void main(String[] args) throws Exception {
@@ -25,10 +27,16 @@ public class OkHttpTest {
 
         httpPoolTest();
 
-        OkHttpClient client=new OkHttpClient.Builder().build();
-        okhttp3.Request request=new okhttp3.Request.Builder().build();
 
-        okhttp3.Call call=client.newCall(request);
+//        BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(System.out));
+//        bufferedWriter.write("1234");
+//        bufferedWriter.flush();
+
+
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        okhttp3.Request request = new okhttp3.Request.Builder().build();
+
+        okhttp3.Call call = client.newCall(request);
         call.enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(okhttp3.Call call, IOException e) {
@@ -43,7 +51,7 @@ public class OkHttpTest {
     }
 
     public static MyOkHttpClient client = new MyOkHttpClient.Builder().build();
-    public static Request request = new Request.Builder().url(PATH_GET).build();
+    public static Request request = new Request.Builder().url(PATG_POST).build();
 
     public static void httpPoolTest() {
         Call call = client.newCall(request);
