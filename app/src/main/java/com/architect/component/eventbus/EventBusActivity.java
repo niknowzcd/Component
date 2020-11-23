@@ -12,6 +12,7 @@ import com.architect.component.annotation.eventbus.ThreadMode;
 import com.architect.component.api.core.event.BaseEventBusBeaan;
 import com.architect.component.api.core.event.EventBus;
 import com.architect.component.common.utils.LogUtils;
+import com.architect.component.okhttp.OkHttpTest;
 
 
 public class EventBusActivity extends AppCompatActivity {
@@ -45,6 +46,10 @@ public class EventBusActivity extends AppCompatActivity {
     public void jump(View view) {
         EventBus.getDefault().postSticky(new UserInfo("123", new Bundle()));
         startActivity(new Intent(this, EventBusActivity2.class));
+    }
+
+    public void request(View view) {
+        OkHttpTest.httpPoolTest();
     }
 
 

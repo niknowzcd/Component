@@ -4,6 +4,8 @@ import com.architect.component.api.core.EmptyUtils;
 import com.architect.component.common.http.Request;
 import com.architect.component.common.http.Response;
 import com.architect.component.common.http.SocketRequestServer;
+import com.architect.component.common.http.pool.ConnectionPool;
+import com.architect.component.common.http.pool.HttpConnection;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,12 +15,16 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
-import javax.net.ssl.SSLSocketFactory;
-
 /**
  * 网络连接的拦截器
  */
 public class ConnectInterceptor implements Interceptor {
+
+    private ConnectionPool connectionPool;
+
+    public ConnectInterceptor(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
+    }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -27,13 +33,17 @@ public class ConnectInterceptor implements Interceptor {
 
         String protocol = socketRequestServer.getProtocol(request);
         if (EmptyUtils.isEmpty(protocol)) throw new IllegalAccessError("请求url请以http或者https开头");
+        String host = socketRequestServer.getHost(request);
+        int port = socketRequestServer.getPort(request);
 
-        Socket socket = new Socket(socketRequestServer.getHost(request), socketRequestServer.getPort(request));
-        if ("Https".equalsIgnoreCase(protocol)) {
-            socket = SSLSocketFactory.getDefault().createSocket(socketRequestServer.getHost(request), socketRequestServer.getPort(request));
+        HttpConnection httpConnection = connectionPool.getConnection(host, port);
+        if (httpConnection == null) {
+            httpConnection = new HttpConnection(protocol, host, port);
+            httpConnection.hastUseTime = System.currentTimeMillis();
+            connectionPool.putConnection(httpConnection);
         }
 
-        //请求 output
+        Socket socket = httpConnection.socket();
         OutputStream os = socket.getOutputStream();
         BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(os));
         String requestHeaders = socketRequestServer.getRequestHeaders(request);
@@ -67,7 +77,7 @@ public class ConnectInterceptor implements Interceptor {
         try {
             while ((readLine = bufferedReader.readLine()) != null) {
                 if (startRead) {
-                    System.out.println("响应内容 >> " + readLine);
+//                    System.out.println("响应内容 >> " + readLine);
                     bodyBuffer.append(readLine);
                 }
 

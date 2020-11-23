@@ -1,6 +1,7 @@
 package com.architect.component.common.http;
 
 import com.architect.component.common.http.interceptor.Interceptor;
+import com.architect.component.common.http.pool.ConnectionPool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ public class MyOkHttpClient {
     private Dispatcher dispatcher;
     private boolean isCanceled;
     private List<Interceptor> interceptors;
+    private ConnectionPool connectionPool;
 
     public List<Interceptor> interceptors() {
         return interceptors;
@@ -23,6 +25,7 @@ public class MyOkHttpClient {
         dispatcher = builder.dispatcher;
         isCanceled = builder.isCanceled;
         interceptors = builder.interceptors;
+        connectionPool = new ConnectionPool();
     }
 
     public final static class Builder {
@@ -62,5 +65,9 @@ public class MyOkHttpClient {
 
     public Dispatcher dispatcher() {
         return dispatcher;
+    }
+
+    public ConnectionPool getConnectionPool() {
+        return connectionPool;
     }
 }

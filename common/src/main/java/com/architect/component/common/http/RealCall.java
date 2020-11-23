@@ -26,12 +26,12 @@ public class RealCall implements Call {
 
     @Override
     public void enqueue(Callback callback) {
-        synchronized (this) {
-            if (executed) {
-                executed = true;
-                throw new IllegalStateException("enqueue Already Executed");
-            }
-        }
+//        synchronized (this) {
+//            if (executed) {
+//                executed = true;
+//                throw new IllegalStateException("enqueue Already Executed");
+//            }
+//        }
 
         client.dispatcher().enqueue(new AsyncCall(callback));
     }
@@ -76,7 +76,7 @@ public class RealCall implements Call {
             List<Interceptor> interceptors = new ArrayList<>(client.interceptors());
             interceptors.add(new RetryAndFollowUpInterceptor());
             interceptors.add(new RequestHeaderInterceptor());
-            interceptors.add(new ConnectInterceptor());
+            interceptors.add(new ConnectInterceptor(client.getConnectionPool()));
 
             RealInterceptor chain = new RealInterceptor(interceptors, 0, request, RealCall.this);
             return chain.process(request);

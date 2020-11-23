@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Dispatcher {
 
-    private final int maxRequests = 64;  // 同时访问任务，最大限制64个
+    private final int maxRequests = 30;  // 同时访问任务，最大限制64个
     private final int maxRequestHost = 5;  //同时访问同一个服务器域名，最大限制5个
 
     private Deque<RealCall.AsyncCall> runningCalls = new ArrayDeque<>();
@@ -25,6 +25,9 @@ public class Dispatcher {
         } else {
             readyCalls.add(call);
         }
+
+        System.out.println("runningCalls >> "+runningCalls.size());
+        System.out.println("readyCalls >> "+readyCalls.size());
     }
 
 

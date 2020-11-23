@@ -14,7 +14,7 @@ public class RetryAndFollowUpInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-        System.out.println("我是重试与重定向的拦截器");
+//        System.out.println("我是重试与重定向的拦截器");
 
         return chain.process(chain.request());
     }
