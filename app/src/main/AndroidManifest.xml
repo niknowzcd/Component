@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.architect.component">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".MyApplication"
@@ -12,24 +12,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".eventbus.EventBusActivity" >
+        <activity android:name=".eventbus.EventBusActivity">
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
+        </activity>
+
+        <activity android:name=".eventbus.EventBusActivity2" />
+        <activity android:name=".eventbus.EventBusActivity3" />
+        <activity android:name=".router.Main3Activity" />
+        <activity android:name=".router.MainActivity" />
+
+        <activity android:name=".skin.SkinActivity" />
+        <activity
+            android:name=".skin.SkinTestActivity"
+            android:configChanges="uiMode">  <!--用户界面模式发生了改变，比如开启夜间模式 -->
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        
 
-        <activity android:name=".eventbus.EventBusActivity2" />
-        <activity android:name=".eventbus.EventBusActivity3" />
-        <activity android:name=".router.Main3Activity" />
-        <activity android:name=".router.MainActivity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
         </activity>
     </application>
 

@@ -16,7 +16,6 @@ import java.util.Map;
  * 自定义的LiveData  解决 数据粘性问题 / 数据倒灌问题
  * 出现粘性数据的原因是因为 LiveData中dispatchingValue分发的函数不仅仅在setValue触发，在observer的时候也会触发，这时就会导致数据刷新的后果
  *
- * 同学们如果更加先要明白，数据倒灌的来龙去脉
  * https://blog.csdn.net/waterIsTooDeep/article/details/105932334
  *
  * 以后开发过程中，会使用我们的 LiveDataBus，而不是LiveData原装的
