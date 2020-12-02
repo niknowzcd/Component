@@ -5,6 +5,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- 字体样式属性，定义在theme下是为了占据一个id的引用-->
+        <!-- 当application引用这个theme时,会为custom_typeface这个属性绑定一个资源id,具体使用看SkinableTextView-->
+        <item name="custom_typeface">@string/custom_typeface_string</item>
     </style>
 
 </resources>

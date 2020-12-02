@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.architect.component.api.core.event.EventBus;
 import com.architect.component.apt.MyEventBusIndex;
+import com.architect.component.skin.SkinManager;
 
 
 public class MyApplication extends Application {
@@ -14,6 +15,8 @@ public class MyApplication extends Application {
         super.onCreate();
 
         initEventBus();
+
+        SkinManager.init(this);
     }
 
     /**

@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Component</string>
+
+
+    <!-- 字体包路径（皮肤包内） -->
+    <string name="custom_typeface_string"/>
+
 </resources>

@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatViewInflater;
 import com.architect.component.skin.views.SkinnableButton;
 import com.architect.component.skin.views.SkinnableImageView;
 import com.architect.component.skin.views.SkinnableLinearLayout;
-import com.architect.component.skin.views.SkinnableRelativeLayout;
 import com.architect.component.skin.views.SkinnableTextView;
 
 
@@ -44,10 +43,6 @@ public final class CustomAppCompatViewInflater extends AppCompatViewInflater {
             case "LinearLayout":
                 // view = super.createTextView(context, attrs); // 源码写法
                 view = new SkinnableLinearLayout(context, attrs);
-                this.verifyNotNull(view, name);
-                break;
-            case "RelativeLayout":
-                view = new SkinnableRelativeLayout(context, attrs);
                 this.verifyNotNull(view, name);
                 break;
             case "TextView":

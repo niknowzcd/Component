@@ -25,7 +25,7 @@ import com.architect.component.skin.utils.StatusBarUtils;
  * 重点看
  * 1.onCreate
  * 2.onCreateView
- * 3.applyDayNightForView
+ * 3.applySkinForView
  */
 public class SkinActivity extends AppCompatActivity {
 
@@ -64,6 +64,15 @@ public class SkinActivity extends AppCompatActivity {
         return false;
     }
 
+
+    protected void switchSkin(String skinPath){
+        SkinManager.getInstance().loaderSkinResource(skinPath);
+
+        applySkinForView(getWindow().getDecorView());
+    }
+
+
+    //夜间模式
     protected void setDayNightMode(@AppCompatDelegate.NightMode int nightMode) {
 
         final boolean isPost21 = Build.VERSION.SDK_INT >= 21;
@@ -80,13 +89,13 @@ public class SkinActivity extends AppCompatActivity {
         }
 
         View decorView = getWindow().getDecorView();
-        applyDayNightForView(decorView);
+        applySkinForView(decorView);
     }
 
     /**
      * 回调接口 给具体控件换肤操作
      */
-    protected void applyDayNightForView(View view) {
+    protected void applySkinForView(View view) {
         if (view instanceof ViewsMatch) {
             ViewsMatch viewsMatch = (ViewsMatch) view;
             viewsMatch.skinnableView();
@@ -96,7 +105,7 @@ public class SkinActivity extends AppCompatActivity {
             ViewGroup parent = (ViewGroup) view;
             int childCount = parent.getChildCount();
             for (int i = 0; i < childCount; i++) {
-                applyDayNightForView(parent.getChildAt(i));
+                applySkinForView(parent.getChildAt(i));
             }
         }
     }

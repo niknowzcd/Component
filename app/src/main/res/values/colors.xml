@@ -7,4 +7,8 @@
     <!-- 本地/内置换肤颜色（日间） -->
     <color name="commonTextColor">#008577</color>
     <color name="commonTextColor1">#ffffff</color>
+
+    <!-- 换肤颜色-->
+    <color name="skin_background">#88ffffff</color>
+    <color name="skin_textColor">#000000</color>
 </resources>
