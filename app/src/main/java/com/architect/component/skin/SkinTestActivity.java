@@ -21,6 +21,9 @@ import java.io.File;
  * 不然模式切换会导致重建activity
  * <p>
  * https://blog.csdn.net/weixin_37011894/article/details/78921805
+ *
+ * 测试用的皮肤apk在根目录下的skin_2.apk
+ * skin_2.apk可以更换名字，不用apk结尾也行，主要看皮肤文件中有没有对应的几个文件，AndroidManifest.xml;res包;resources.arsc资源映射表
  */
 public class SkinTestActivity extends SkinActivity {
 
