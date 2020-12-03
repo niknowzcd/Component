@@ -31,6 +31,19 @@ public class SkinActivity extends AppCompatActivity {
 
     private CustomAppCompatViewInflater viewInflater;
 
+    /**
+     * 查看源代码可以看到,这么一段逻辑。
+     *
+     * if (mFactory2 != null) {
+     *     view = mFactory2.onCreateView(parent, name, context, attrs);
+     * } else if (mFactory != null) {
+     *     view = mFactory.onCreateView(name, context, attrs);
+     * } else {
+     *     view = null;
+     * }
+     *
+     * 即我们所看到的view都是通过mFactory2来生成出来的，也就是说我们可以通过给mFactory2赋值来控制view的生成
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         LayoutInflater layoutInflater = LayoutInflater.from(this);
