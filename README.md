@@ -1,12 +1,22 @@
-> 0.1版本功能如下
+### 代码目录
 
-##### 在组件化的框架下，通过apt生成的路由实现module下Activity的跳转
+##### 简化版路由
 
-```java
-RouterManager.getInstance()
-  .build("/order/Order_MainActivity")
-  .withString("name", "张三")
-  .navigation(this);
-```
+- com.architect.component.router
+
+##### 简化版eventBus
+
+- com.architect.component.eventbus
+
+##### 简化版okhttp
+
+- com.architect.component.okhttp
+
+##### 动态换肤
+
+- com.architect.component.skin
+
+[文章链接](https://www.jianshu.com/p/34581292d32c)
+
 
 
