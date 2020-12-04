@@ -14,7 +14,8 @@ import com.architect.component.skin.views.SkinnableTextView;
 
 
 /**
- * 自定义控件加载器（可以考虑该类不被继承）
+ * 自定义控件加载器
+ * 这里的 AppCompatViewInflater是为了留个入口，对照源码的写法，可以不需要继承
  */
 public final class CustomAppCompatViewInflater extends AppCompatViewInflater {
 

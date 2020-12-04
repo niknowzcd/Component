@@ -36,7 +36,7 @@ public class SkinTestActivity extends SkinActivity {
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
-        skinPath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "Android" + File.separator + "skin_2.apk";
+        skinPath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "Android" + File.separator + "component_test.skin";
         System.out.println("skinPath >> " + skinPath);
 
         requestPermission();
