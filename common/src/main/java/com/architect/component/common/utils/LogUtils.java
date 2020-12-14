@@ -8,9 +8,13 @@ public class LogUtils {
 
     private static final String TAG = "logger";
 
+    public static void d(String tag, String msg) {
+        Log.d(tag, msg);
+    }
+
     public static void d(String msg) {
 //        if (!BuildConfig.isRelease) {
-            Log.d(TAG, msg);
+        Log.d(TAG, msg);
 //        }
     }
 }

@@ -32,7 +32,7 @@ public class SkinTestActivity extends SkinActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.skin_activity_main_2);
+        setContentView(R.layout.activity_skin_main_2);
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
