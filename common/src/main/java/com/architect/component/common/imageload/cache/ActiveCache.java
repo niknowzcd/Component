@@ -1,10 +1,13 @@
 package com.architect.component.common.imageload.cache;
 
+import com.architect.component.common.utils.LogUtils;
+
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 活动缓存也是第一级缓存
@@ -12,16 +15,36 @@ import java.util.Map;
  * WeakReference 参考
  * https://blog.csdn.net/gdutxiaoxu/article/details/80738581
  * https://www.jianshu.com/p/f86d3a43eec5
+ * <p>
+ * Q:MemoryCache底层用的是LinkedHashMap.为什么还要多一层ActiveCache呢?
+ * A:ActiveCache可以理解为MemoryCache的备用空间.
+ * 当需要用到某个图片的时候，将图片移动到ActiveCache，而将MemoryCache对应的图片删除。这样能延迟MemoryCache内存过大，进行的清理工作。
+ * <p>
+ * Q:那为什么有了ActiveCache，又要MemoryCache呢？
+ * A:因为ActiveCache采用的是WeakReference虚引用，在很多情况下都容易被清理掉，这个时候如果没有MemoryCache的话，就只能去磁盘或者网络获取了。
+ * <p>
+ * Q:MemoryCache不是LRU算法的吗？应该会自动清理内存才对？
+ * A:MemoryCache内部实现是一个LinkedHashMap,初始化大小是固定的，随着存储的内容增加自动扩容，增加ActiveCache也是为了延迟扩容的时机
+ * <p>
+ * 举个例子说明，假设MemoryCache初始化大小为8，最大容量为16。这个时候界面上已经加载了8个数据了，需要新增加一个数据，如果没有ActiveCache的话
+ * MemoryCache就需要去扩容，而有了ActiveCache。8个数据的引用都在ActiveCache上，而MemoryCache只有新增加的一个数据。
  */
 public class ActiveCache {
 
     private Map<String, WeakReference<BitmapWrap>> map = new HashMap<>();
+    private Map<String, String> map2 = new HashMap<>();
     private ReferenceQueue<BitmapWrap> queue = new ReferenceQueue<>();
     private boolean isCloseThread;
+    private BitmapWrapCallback callback;
+    private Thread cleanThread;
 
+    public ActiveCache(BitmapWrapCallback callback) {
+        this.callback = callback;
+    }
 
     public void put(String key, BitmapWrap bitmapWrap) {
         map.put(key, new MyWeakReference(bitmapWrap, getQueue(), key));
+        bitmapWrap.setCallback(callback);
     }
 
     public BitmapWrap get(String key) {
@@ -29,14 +52,23 @@ public class ActiveCache {
         if (reference != null) {
             return reference.get();
         }
+
         return null;
     }
 
     public void closeThread() {
         isCloseThread = true;
-
-        map.clear();
-        System.gc();
+        if (cleanThread != null) {
+            cleanThread.interrupt();
+            try {
+                cleanThread.join(TimeUnit.SECONDS.toMillis(5));
+                if (cleanThread.isAlive()) {
+                    throw new RuntimeException("Failed to join in time");
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -52,8 +84,8 @@ public class ActiveCache {
      *
      * }</pre>
      */
-    public static class MyWeakReference extends WeakReference<BitmapWrap> {
-        private String key;
+    public static final class MyWeakReference extends WeakReference<BitmapWrap> {
+        private final String key;
 
         public MyWeakReference(BitmapWrap referent, ReferenceQueue<? super BitmapWrap> q, String key) {
             super(referent, q);
@@ -65,7 +97,7 @@ public class ActiveCache {
         if (queue == null) {
             queue = new ReferenceQueue<>();
 
-            Thread thread = new Thread() {
+            cleanThread = new Thread() {
                 @Override
                 public void run() {
                     super.run();
@@ -74,7 +106,7 @@ public class ActiveCache {
                     }
                 }
             };
-            thread.start();
+            cleanThread.start();
         }
 
         return queue;
@@ -85,6 +117,7 @@ public class ActiveCache {
      */
     private void remove() {
         try {
+            LogUtils.d("activitycache remove");
             Reference<? extends BitmapWrap> reference = queue.remove();
             MyWeakReference weakReference = (MyWeakReference) reference;
             if (map != null && !map.isEmpty()) {
@@ -95,5 +128,8 @@ public class ActiveCache {
         }
     }
 
+    public int getSize() {
+        return map.size();
+    }
 
 }

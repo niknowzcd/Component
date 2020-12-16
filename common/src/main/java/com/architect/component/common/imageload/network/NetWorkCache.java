@@ -26,7 +26,7 @@ public class NetWorkCache implements Runnable {
     private LoadResponseListener listener;
     private String path;
 
-    public BitmapWrap loadBitmap(String path, LoadResponseListener listener, Context context) {
+    public void loadBitmap(String path, LoadResponseListener listener, Context context) {
         this.path = path;
         this.listener = listener;
 
@@ -36,8 +36,6 @@ public class NetWorkCache implements Runnable {
                     60, TimeUnit.SECONDS,
                     new SynchronousQueue<Runnable>()).execute(this);
         }
-
-        return null;
     }
 
     @Override
@@ -58,7 +56,7 @@ public class NetWorkCache implements Runnable {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        BitmapWrap bitmapWrap = BitmapWrap.getInstance();
+                        BitmapWrap bitmapWrap = new BitmapWrap();
                         bitmapWrap.setBitmap(bitmap);
 
                         listener.loadSuccess(bitmapWrap);

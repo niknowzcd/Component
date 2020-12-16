@@ -65,7 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="t3"
-                    android:text="跳转" />
+                    android:text="t3" />
 
             </LinearLayout>
 

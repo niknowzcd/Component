@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -14,19 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".eventbus.EventBusActivity" />
-        <activity android:name=".eventbus.EventBusActivity2" />
-        <activity android:name=".eventbus.EventBusActivity3" />
-        <activity android:name=".router.Main3Activity" />
-        <activity android:name=".router.MainActivity" />
-
-        <activity android:name=".skin.SkinActivity" />
-        <activity
-            android:name=".skin.SkinTestActivity"
-            android:configChanges="uiMode">  <!--用户界面模式发生了改变，比如开启夜间模式 -->
-        </activity>
-
-        <activity android:name=".imageload.GlideMainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,6 +23,20 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".eventbus.EventBusActivity" />
+        <activity android:name=".eventbus.EventBusActivity2" />
+        <activity android:name=".eventbus.EventBusActivity3" />
+        <activity android:name=".router.ARouterMain3Activity" />
+        <activity android:name=".router.ARouterMainActivity" />
+
+        <activity android:name=".skin.SkinActivity" />
+        <activity
+            android:name=".skin.SkinTestActivity"
+            android:configChanges="uiMode">  <!--用户界面模式发生了改变，比如开启夜间模式 -->
+        </activity>
+
+        <activity android:name=".imageload.GlideMainActivity" />
+        <activity android:name=".imageload.GlideMainActivity2" />
     </application>
 
 </manifest>

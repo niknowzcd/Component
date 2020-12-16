@@ -1,6 +1,5 @@
 package com.architect.component.imageload;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,14 +10,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.architect.component.R;
 import com.architect.component.common.imageload.Glide;
 
-public class GlideMainActivity extends AppCompatActivity {
+public class GlideMainActivity2 extends AppCompatActivity {
 
     private ImageView imageView1, imageView2, imageView3;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_glide_main);
+        setContentView(R.layout.activity_glide_main2);
 
         imageView1 = findViewById(R.id.image1);
         imageView2 = findViewById(R.id.image2);
@@ -28,7 +27,7 @@ public class GlideMainActivity extends AppCompatActivity {
 
     // 加载此图片：https://cn.bing.com/sa/simg/hpb/LaDigue_EN-CA1115245085_1920x1080.jpg
     public void t1(View view) {
-        Glide.with(this).load("https://cn.bing.com/sa/simg/hpb/LaDigue_EN-CA1115245085_1920x1080.jpg").into(imageView1);
+        Glide.with(this).load("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=112039377,836214824&fm=26&gp=0.jpg").into(imageView1);
     }
 
     public void t2(View view) {
@@ -36,8 +35,6 @@ public class GlideMainActivity extends AppCompatActivity {
     }
 
     public void t3(View view) {
-        startActivity(new Intent(this,GlideMainActivity2.class));
-
-//        Glide.with(this).load("https://cn.bing.com/sa/simg/hpb/LaDigue_EN-CA1115245085_1920x1080.jpg").into(imageView3);
+        Glide.with(this).load("https://cn.bing.com/sa/simg/hpb/LaDigue_EN-CA1115245085_1920x1080.jpg").into(imageView3);
     }
 }

@@ -1,18 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".router.MainActivity">
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="30dp">
 
-    <TextView
-        android:layout_width="wrap_content"
+
+    <Button
+        android:id="@+id/imageload"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="20dp"
+        android:onClick="imageload"
+        android:text="imageload"
+        android:textAllCaps="false" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/skin"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:onClick="skin"
+        android:text="skin"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/arouter"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:onClick="arouter"
+        android:text="arouter"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/eventBus"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:onClick="eventBus"
+        android:text="eventBus"
+        android:textAllCaps="false" />
+
+</LinearLayout>

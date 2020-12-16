@@ -20,16 +20,21 @@ public class RequestManager {
     private static final String ACTIVIEY_TAG = "activity_tag";
 
     private Context requestContext;
-    private RequestTargetEngine requestTargetEngine;
+
+    //todo 这里其实不适合用静态变量来声明的，待修改
+    private static RequestTargetEngine requestTargetEngine;
 
     {
-        requestTargetEngine = new RequestTargetEngine();
+        if (requestTargetEngine == null) {
+            requestTargetEngine = new RequestTargetEngine();
+        }
     }
 
     public RequestManager(FragmentActivity fragmentActivity) {
         this.requestContext = fragmentActivity;
 
         FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
+
         Fragment fragment = fragmentManager.findFragmentByTag(FRAGMENT_ACTIVITY_TAG);
         if (fragment == null) {
             fragment = new FragmentActivityLifecycleManager(requestTargetEngine);
@@ -47,7 +52,6 @@ public class RequestManager {
             manager.beginTransaction().add(fragment, ACTIVIEY_TAG).commit();
         }
     }
-
 
     public RequestManager(Context context) {
         this.requestContext = context;

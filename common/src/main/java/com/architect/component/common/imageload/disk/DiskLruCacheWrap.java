@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.Environment;
 
 import com.architect.component.common.imageload.cache.BitmapWrap;
+import com.architect.component.common.imageload.pool.BitmapMemoryPool;
 import com.architect.component.common.utils.LogUtils;
 
 import java.io.File;
@@ -19,7 +20,7 @@ public class DiskLruCacheWrap {
 
     private static final String TAG = DiskLruCacheWrap.class.getSimpleName();
 
-    private static final String DISKLRU_CACHE_DIR = "disk_lru_cache_dir";
+    private static final String DISKLRU_CACHE_DIR = "disk_lru_cache_dir2";
     private static final int APP_VERSION = 1;
     private static final int VALUE_COUNT = 1;
     private static final long MAX_SIZE = 1024 * 1024 * 100;
@@ -77,15 +78,16 @@ public class DiskLruCacheWrap {
         }
     }
 
-    public BitmapWrap get(String key) {
+    public BitmapWrap get(String key, BitmapMemoryPool bitmapMemoryPool) {
         InputStream inputStream = null;
 
         try {
             DiskLruCache.Snapshot snapshot = diskLruCache.get(key);
             if (snapshot != null) {
                 inputStream = snapshot.getInputStream(0);
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                BitmapWrap wrap = BitmapWrap.getInstance();
+
+                Bitmap bitmap = getBitmap(bitmapMemoryPool, inputStream);
+                BitmapWrap wrap = new BitmapWrap();
                 wrap.setBitmap(bitmap);
                 wrap.setKey(key);
                 return wrap;
@@ -103,5 +105,42 @@ public class DiskLruCacheWrap {
         return null;
     }
 
+    private Bitmap getBitmap(BitmapMemoryPool bitmapMemoryPool, InputStream inputStream) {
+        int targetWidth = 360;
+        int targetHeight = 540;
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        //本地数据流只能读取一次，所以这里没办法使用  options.inJustDecodeBounds
+        int rawWidth = options.outWidth == 0 ? targetWidth : options.outWidth;
+        int rawHeight = options.outHeight == 0 ? targetHeight : options.outHeight;
+
+        options.inMutable = true;
+        options.inPreferredConfig = Bitmap.Config.RGB_565;
+        options.inSampleSize = sampleBitmapSize(rawWidth, rawHeight, targetWidth, targetHeight);
+
+        Bitmap bitmapPool = bitmapMemoryPool.get(targetWidth, targetHeight, Bitmap.Config.RGB_565);
+        if (bitmapPool != null) {
+            options.inBitmap = bitmapPool;
+        }
+
+        Bitmap result = BitmapFactory.decodeStream(inputStream, null, options);
+        assert result != null;
+        bitmapMemoryPool.put(result);
+        return result;
+    }
+
+
+    // 根据maxWidth, maxHeight计算最合适的inSampleSize
+    private int sampleBitmapSize(int rawWidth, int rawHeight, int maxWidth, int maxHeight) {
+        // calculate best sample size
+        int inSampleSize = 0;
+        if (rawHeight > maxHeight || rawWidth > maxWidth) {
+            float ratioWidth = (float) rawWidth / maxWidth;
+            float ratioHeight = (float) rawHeight / maxHeight;
+            inSampleSize = (int) Math.min(ratioHeight, ratioWidth);
+        }
+        inSampleSize = Math.max(1, inSampleSize);
+        return inSampleSize;
+    }
 
 }

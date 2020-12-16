@@ -5,9 +5,30 @@ import android.content.Context;
 
 import androidx.fragment.app.FragmentActivity;
 
+/**
+ * https://blog.csdn.net/qq_24345643/article/details/87564862
+ *
+ *
+ */
 public class Glide {
 
+    private static volatile Glide glide;
     private RequestManagerRetriver retriver;
+
+    public static Glide get() {
+        if (glide == null) {
+            synchronized (Glide.class) {
+                if (glide == null) {
+                    initGlide();
+                }
+            }
+        }
+        return glide;
+    }
+
+    private static void initGlide() {
+        Glide.glide = new GlideBuilder().build();
+    }
 
     public Glide(RequestManagerRetriver retriver) {
         this.retriver = retriver;
@@ -26,9 +47,7 @@ public class Glide {
     }
 
     public static RequestManagerRetriver getRetriver() {
-        RequestManagerRetriver retriver = new RequestManagerRetriver();
-        Glide glide = new Glide(retriver);
-        return glide.retriver;
+        return Glide.get().retriver;
     }
 
 

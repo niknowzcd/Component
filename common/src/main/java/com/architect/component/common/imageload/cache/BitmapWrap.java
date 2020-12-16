@@ -7,49 +7,44 @@ import com.architect.component.common.utils.LogUtils;
 
 public class BitmapWrap {
 
-    private static volatile BitmapWrap bitmapValue;
-
-    public static BitmapWrap getInstance() {
-        if (bitmapValue == null) {
-            synchronized (BitmapWrap.class) {
-                if (bitmapValue == null) {
-                    bitmapValue = new BitmapWrap();
-                }
-            }
-        }
-        return bitmapValue;
-    }
-
+//    private static volatile BitmapWrap bitmapValue;
+    private BitmapWrapCallback callback;
     private String key;
     private Bitmap mBitmap;
     private int count;
 
-    public void useAction() {
+//    public static BitmapWrap getInstance() {
+//        if (bitmapValue == null) {
+//            synchronized (BitmapWrap.class) {
+//                if (bitmapValue == null) {
+//                    bitmapValue = new BitmapWrap();
+//                }
+//            }
+//        }
+//        return bitmapValue;
+//    }
+
+    public void setCallback(BitmapWrapCallback callback) {
+        this.callback = callback;
+    }
+
+    public void acquire() {
         EmptyUtils.checkNotEmpty(mBitmap);
 
         if (mBitmap.isRecycled()) {
             LogUtils.d("useAction: 已经被回收了");
             return;
         }
-
-
         count++;
     }
 
-    public void nonUseAction() {
-        count--;
-//        if (count <= 0) {
-//
-//        }
+    public void release() {
+        if (--count <= 0 && callback != null) {
+//            callback.bitmapNonUseListener(key, bitmapValue);
+        }
 
-        LogUtils.d("nonUseAction 被调用");
-    }
-
-    public void recycleBitmap() {
-        if (count > 0 || mBitmap.isRecycled()) return;
-
-        mBitmap.recycle();
         System.gc();
+//        LogUtils.d("release 被调用  key >> " + key + " bitmap >> " + mBitmap.toString() + " count >> " + count);
     }
 
     public String getKey() {

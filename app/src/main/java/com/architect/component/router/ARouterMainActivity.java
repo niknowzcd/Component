@@ -10,12 +10,12 @@ import com.architect.component.annotation.ARouter;
 import com.architect.component.api.core.RouterManager;
 
 @ARouter(path = "/app/MainActivity")
-public class MainActivity extends AppCompatActivity {
+public class ARouterMainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_arouter_main);
     }
 
     public void jumpOrder(View view) {
