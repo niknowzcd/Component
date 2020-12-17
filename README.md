@@ -8,6 +8,7 @@
 
 - com.architect.component.eventbus
 
+[文章链接](https://www.jianshu.com/p/c0af929f2cd8)
 ##### 简化版okhttp
 
 - com.architect.component.okhttp

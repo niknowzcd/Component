@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         requestPermission();
 
-        startActivity(new Intent(this, GlideMainActivity.class));
+        startActivity(new Intent(this, EventBusActivity.class));
     }
 
     public void arouter(View view) {
